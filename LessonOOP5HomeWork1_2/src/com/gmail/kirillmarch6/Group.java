@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,14 +17,17 @@ public class Group implements Voenkom, Serializable {
 
 	List<Student> group = new ArrayList<>();
 	final Integer sizeGroup = 10;
+	String parametr = "";
 
-	public Group(List<Student> group) {
+	public Group(List<Student> group, String parametr) {
 		super();
 		this.group = group;
+		this.parametr = parametr;
 	}
 
 	public Group() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public List<Student> getGroup() {
@@ -32,6 +36,25 @@ public class Group implements Voenkom, Serializable {
 
 	public void setGroup(List<Student> group) {
 		this.group = group;
+	}
+
+	public String getParametr() {
+		return parametr;
+	}
+
+	public void setParametr(String parametr) {
+		try {
+			this.parametr = parametr;
+			if (this.parametr.equals("")) {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			JOptionPane.showMessageDialog(null, "Ничего не было введено или нажата отмена!");
+		}
+		if (!this.parametr.equals("surname") && !this.parametr.equals("name") && !this.parametr.equals("patronymic")
+				&& !this.parametr.equals("age") && !this.parametr.equals("studentID") && !this.parametr.equals("numberRecordBook")) {
+			System.out.println("Неверный параметр!");
+		}
 	}
 
 	public Integer getSizeGroup() {
@@ -141,14 +164,14 @@ public class Group implements Voenkom, Serializable {
 		}
 		return searchStudent;
 	}
-	
+
 	public void getInformation() { // вывод информации о студенте
 		for (Student student : group) {
 			System.out.println(student.getInformation());
 		}
 	}
-	
-	public List<Student> getStudnetsForVoenkom() {	// призывники	
+
+	public List<Student> getStudnetsForVoenkom() { // призывники
 		List<Student> year18men = new ArrayList<>();
 		for (Student student : group) {
 			if (student.getAge() == 18 && student.getSex() == Sex.man) {
@@ -157,8 +180,7 @@ public class Group implements Voenkom, Serializable {
 		}
 		return year18men;
 	}
-	
-	
+
 	public void saveStringToFile(Group group) { // запись в файл
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("group_students"))) {
 			oos.writeObject(group);
@@ -166,7 +188,7 @@ public class Group implements Voenkom, Serializable {
 			System.out.println("Невозможно сохранить группу в файл!");
 		}
 	}
-	
+
 	public Group getGroupFromFile(Group groupFromFile) {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("group_students"))) {
 			groupFromFile = (Group) ois.readObject();
@@ -175,4 +197,29 @@ public class Group implements Voenkom, Serializable {
 		}
 		return groupFromFile;
 	}
+
+//	@Override
+//	public int compare(Student a, Student b) {
+//		if (parametr.equals("surname")) {
+//			return a.getSurname().compareToIgnoreCase(b.getSurname());
+//		} else if (parametr.equals("name")) {
+//			return a.getName().compareToIgnoreCase(b.getName());
+//		} else if (parametr.equals("patronymic")) {
+//			return a.getPatronymic().compareToIgnoreCase(b.getPatronymic());
+//		} else if (parametr.equals("numberRecordBook") && a.getNumberRecordBook() < b.getNumberRecordBook()) {
+//			return 1;
+//		} else if (parametr.equals("numberRecordBook") && a.getNumberRecordBook() > b.getNumberRecordBook()) {
+//			return -1;
+//		} else if (parametr.equals("studentID") && a.getStudentID() < b.getStudentID()) {
+//			return 1;
+//		} else if (parametr.equals("studentID") && a.getStudentID() > b.getStudentID()) {
+//			return -1;
+//		} else if (parametr.equals("age") && a.getAge() < b.getAge()) {
+//			return 1;
+//		} else if (parametr.equals("age") && a.getAge() > b.getAge()) {
+//			return -1;
+//		} else {
+//			return 0;
+//		}
+//	}
 }

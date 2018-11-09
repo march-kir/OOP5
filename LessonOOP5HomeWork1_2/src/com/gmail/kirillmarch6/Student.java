@@ -2,7 +2,7 @@ package com.gmail.kirillmarch6;
 
 import java.io.Serializable;
 
-public class Student extends Person implements Comparable, Serializable {
+public class Student extends Person implements Serializable {
 
 	private int studentID;
 	private int numberRecordBook;
@@ -42,15 +42,6 @@ public class Student extends Person implements Comparable, Serializable {
 	public String getInformation() {
 		return "Student " + super.getInformation() + ", studentID=" + studentID + ", numberRecordBook="
 				+ numberRecordBook + "]";
-	}
-
-	@Override
-	public int compareTo(Object obj) {
-		if (obj == null) {
-			return -1;
-		}
-		Student tmp = (Student) obj;
-		return this.getSurname().compareToIgnoreCase(tmp.getSurname());
 	}
 
 	@Override

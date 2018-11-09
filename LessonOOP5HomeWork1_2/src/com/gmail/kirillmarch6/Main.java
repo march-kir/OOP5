@@ -9,7 +9,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
+
+import javax.swing.JOptionPane;
 
 public class Main {
 
@@ -72,33 +78,23 @@ public class Main {
 		for (Student student : voen) {
 			System.out.println(student.getInformation());
 		}
-
-//		System.out.println();
-//		System.out.println("Сортировка по фамилии");
-//		Student[] sortArray = new Student[] {};
-//		sortArray = group.getGroup(); // заполняем массив всеми студентами
-//		sortArray = group.arrWithoutNull(sortArray); // получаем массив без null в конце
-//
-//		Arrays.sort(sortArray);
-//		for (int i = 0; i < sortArray.length; i++) {
-//			System.out.println(sortArray[i].getInformation());
-//		}
-//
-//		System.out.println();
-//		System.out.println("Сортировка по параметру");
-//		sortArray = group.getInteractiveSortArray();
-//		if (sortArray != null) {
-//			for (int i = 0; i < sortArray.length; i++) {
-//				System.out.println(sortArray[i].getInformation());
-//			}
-//		}
+		
+		System.out.println();
+		System.out.println("Сортировка по параметру");
+		List<Student> sortStudent = new ArrayList<>();
+		sortStudent = group.getGroup();
+		Collections.sort(sortStudent, new ParameterComparator(JOptionPane.showInputDialog(
+				"Введите значение параметра сортировки (surname/name/patronymic/age/studentID/numberRecordBook)")));
+		for (Student student : sortStudent) {
+			System.out.println(student.getInformation());
+		}
+		System.out.println();
+		
+		
 
 		group.saveStringToFile(group);
-
 		Group groupFromFile = null;
-
 		groupFromFile = group.getGroupFromFile(groupFromFile);
-
 		System.out.println();
 		System.out.println("Новая группа из файла:");
 		groupFromFile.getInformation();
